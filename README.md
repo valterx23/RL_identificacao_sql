@@ -7,4 +7,4 @@ Esse projeto utiliza o Reinforcement Learning para identificação de vulnerabil
 
 
 
-Para executar o código deve-se baixar o requirements.txt e obter uma máquina virtual Metasploitable conectada via host-only.
+Para executar o código deve-se baixar o arquivo python, requirements.txt e obter uma máquina virtual Metasploitable conectada via host-only.
