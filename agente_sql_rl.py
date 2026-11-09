@@ -259,19 +259,18 @@ class DVWAEnv(gym.Env):
             input_box.send_keys(Keys.RETURN)
             time.sleep(0.5)
 
-            # ================================================================
             # SISTEMA DE RECOMPENSAS REVISADO
-            #
+
             # A hierarquia abaixo é baseada em severidade de impacto,
             # conforme critérios do OWASP e MITRE CWE Top 25 (2025).
             # A ordem dos IFs importa: do mais severo para o menos severo,
             # evitando que um resultado crítico seja classificado como menor.
-            #
+
             # Estado 2 → Extração de dados confirmada (vulnerabilidade crítica)
             # Estado 1 → Erro MySQL explícito (vulnerabilidade provável)
             # Estado 1 → Comportamento suspeito genérico (pista fraca)
             # Estado 0 → Nenhum indicador de vulnerabilidade / consulta normal
-            # ================================================================
+    
 
             try:
                 result_area = self.driver.find_element(By.ID, "main_body")
@@ -405,7 +404,7 @@ for episode in range(episodes):
 
     print(f"[{episode}] Payload: {env.actions[action][:50]}... | Reward: {reward} | Testados: {len(env.payload_history)}")
 
-# =============== RESULTADOS FINAIS ===============
+# RESULTADOS FINAIS 
 
 best_action = np.argmax(q_table[0])
 print("\nMELHOR PAYLOAD ENCONTRADO:")
@@ -428,15 +427,13 @@ top_payloads = sorted(best_payloads.items(), key=lambda x: x[1], reverse=True)[:
 for i, (payload, reward) in enumerate(top_payloads):
     print(f"  {i+1}. {payload[:60]}... (Melhor Reward: {reward})")
 
-# =============== GRÁFICOS ===============
-# Todos os gráficos são salvos como .png na pasta "graficos/"
-# Isso evita o problema do PyCharm de não exibir múltiplos plt.show() em sequência
+# GRÁFICOS
 
 os.makedirs("graficos", exist_ok=True)
 
 rewards = env.reward_history
 
-# --- Gráfico 1: Curva de aprendizado ---
+# Gráfico 1: Curva de aprendizado
 window_size = 5
 moving_avg = np.convolve(rewards, np.ones(window_size)/window_size, mode='valid')
 
@@ -452,7 +449,7 @@ plt.savefig("graficos/1_curva_aprendizado.png", dpi=150, bbox_inches="tight")
 plt.close()
 print("Gráfico salvo: graficos/1_curva_aprendizado.png")
 
-# --- Gráfico 2: Pizza por nível de severidade ---
+# Gráfico 2: Pizza por nível de severidade
 criticos = sum(1 for r in rewards if r == 10)
 erros_mysql = sum(1 for r in rewards if r == 5)
 suspeitos = sum(1 for r in rewards if r == 2)
@@ -473,7 +470,7 @@ plt.savefig("graficos/2_pizza_severidade.png", dpi=150, bbox_inches="tight")
 plt.close()
 print("Gráfico salvo: graficos/2_pizza_severidade.png")
 
-# --- Gráfico 3: Top payloads bem-sucedidos ---
+# Gráfico 3: Top payloads bem-sucedidos
 payload_counter = Counter()
 for payload, reward in zip(env.payload_history, env.reward_history):
     if reward > 0:
@@ -496,7 +493,7 @@ if top_payloads:
     plt.close()
     print("Gráfico salvo: graficos/3_top_payloads.png")
 
-# --- Gráfico 4: Tipos de SQL Injection explorados ---
+# Gráfico 4: Tipos de SQL Injection explorados
 categories = {
     "Boolean-Based": 0,
     "UNION-Based": 0,
