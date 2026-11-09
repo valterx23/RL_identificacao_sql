@@ -54,7 +54,7 @@ pip install -r requirements.txt
 3. Instale Metasploitable no site da rapid7
 https://sourceforge.net/projects/metasploitable/
 
-4. Em seguida abra o .iso com virtualbox e na configuração de rede, adicione host-only com IP 192.168.56.1.
+4. Em seguida abra o .iso com virtualbox e na configuração de rede, adicione host-only com IP 192.168.56.1 . Importante que a máquina esteja com o IP 192.1678.56.101 para o script funcionar no Host-only do virtualbox
 
 5. Execute o script:
 ```bash
