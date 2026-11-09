@@ -32,13 +32,13 @@ própria interação com a aplicação.
 O agente foi treinado e avaliado contra o **DVWA (Damn Vulnerable Web Application)**,
 nos níveis de segurança MEDIUM e HIGH, hospedado em uma máquina virtual Metasploitable no Virtualbox.
 
-## 📊 Resultados
+## Resultados
 - Taxa de detecção em nível LOW: **77%**
 - Taxa de detecção em nível MEDIUM: **71%**
 - Taxa de detecção em nível HIGH: **0%** (impactada pela proteção de token CSRF)
 - Treinamento realizado ao longo de 300 episódios
 
-## 🚀 Como executar
+## Como executar
 
 1. Clone o repositório:
 ```bash
@@ -61,13 +61,13 @@ https://sourceforge.net/projects/metasploitable/
 python agente_sql_rl.py
 ```
 
-## 📖 Contexto acadêmico
+## Contexto acadêmico
 
 Este projeto foi desenvolvido como Trabalho de Graduação apresentado à FATEC Ourinhos,
 com defesa prevista para dezembro de 2026.
 
 
-## ⚠️ Licença
+## Licença
 Este código é disponibilizado publicamente apenas para fins de portfólio e avaliação
 técnica. Não é permitida a reprodução, redistribuição ou uso comercial sem autorização
 do autor. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
