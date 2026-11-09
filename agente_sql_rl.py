@@ -54,23 +54,23 @@ class DVWAEnv(gym.Env):
         password.send_keys(Keys.RETURN)
 
         time.sleep(1)
-        print("✅ Login realizado no DVWA")
+        print("Login realizado no DVWA")
 
         self.driver.get(self.base_url + "/security.php")
         time.sleep(1)
 
         try:
             dropdown = Select(self.driver.find_element(By.NAME, "security"))
-            dropdown.select_by_value("low")
+            dropdown.select_by_value("high")
 
             apply_button = self.driver.find_element(By.NAME, "seclev_submit")
             apply_button.click()
 
             time.sleep(1)
-            print("✅ Nível de segurança alterado para LOW")
+            print("Nível de segurança alterado")
 
         except Exception as e:
-            print("❌ Erro ao configurar segurança:", e)
+            print("Erro ao configurar segurança:", e)
 
     def generate_initial_payloads(self):
         """Gera payloads iniciais básicos"""
@@ -217,7 +217,7 @@ class DVWAEnv(gym.Env):
         if payload not in self.actions:
             self.actions.append(payload)
             self.action_space = spaces.Discrete(len(self.actions))
-            print(f"🆕 Novo payload adicionado: {payload}")
+            print(f"Novo payload adicionado: {payload}")
 
     def is_sqli_payload(self, payload):
         """
@@ -279,23 +279,16 @@ class DVWAEnv(gym.Env):
             except:
                 page_content = self.driver.page_source.lower()
 
-            # Nível 3 — Extração confirmada + payload com marcadores de SQLi
-            # Reward +10: vulnerabilidade crítica comprovada, maior impacto
-            # O is_sqli_payload() evita falsos positivos de consultas normais
             if "first name:" in page_content and "surname:" in page_content and self.is_sqli_payload(payload):
                 state = 2
                 reward = 10
                 detection_type = "EXTRAÇÃO DE DADOS"
 
-            # Nível 3b — Consulta normal retornou dados (falso positivo evitado)
-            # Reward -1: payload sem marcadores de SQLi não é uma vulnerabilidade
             elif "first name:" in page_content and "surname:" in page_content and not self.is_sqli_payload(payload):
                 state = 0
                 reward = -1
                 detection_type = "CONSULTA NORMAL (falso positivo evitado)"
 
-            # Nível 2 — Erro MySQL explícito na resposta
-            # Reward +5: indica falha de tratamento com mensagem de banco visível
             elif "you have an error in your sql syntax" in page_content or \
                  "warning: mysql" in page_content or \
                  "mysql_fetch" in page_content or \
@@ -304,8 +297,6 @@ class DVWAEnv(gym.Env):
                 reward = 5
                 detection_type = "ERRO MYSQL EXPLÍCITO"
 
-            # Nível 1 — Comportamento suspeito genérico
-            # Reward +2: termos relacionados a SQL/erro presentes, sem confirmação forte
             elif "mysql" in page_content or \
                  "sql" in page_content or \
                  "error" in page_content:
@@ -313,8 +304,6 @@ class DVWAEnv(gym.Env):
                 reward = 2
                 detection_type = "COMPORTAMENTO SUSPEITO"
 
-            # Nível 0 — Nenhum indicador relevante
-            # Reward -1: penalidade para incentivar exploração de payloads melhores
             else:
                 state = 0
                 reward = -1
@@ -376,7 +365,7 @@ episodes = 300
 payload_generation_interval = 5
 next_generation_episode = 5
 
-print("🚀 Iniciando treinamento com geração dinâmica de payloads...")
+print("Iniciando treinamento com geração dinâmica de payloads...")
 print(f"Payloads iniciais: {len(env.actions)}")
 
 for episode in range(episodes):
@@ -385,7 +374,7 @@ for episode in range(episodes):
     if random.uniform(0, 1) < epsilon:
         if episode >= next_generation_episode and random.random() < 0.3:
             action = env.action_space.n
-            print(f"🎲 Episódio {episode}: Gerando novo payload...")
+            print(f"Episódio {episode}: Gerando novo payload...")
             next_generation_episode += payload_generation_interval
         else:
             action = env.action_space.sample()
@@ -395,7 +384,7 @@ for episode in range(episodes):
     if action >= q_table.shape[1]:
         old_shape = q_table.shape
         q_table = np.pad(q_table, ((0, 0), (0, action - q_table.shape[1] + 1)), 'constant')
-        print(f"📈 Q-table expandida: {old_shape} → {q_table.shape}")
+        print(f"Q-table expandida: {old_shape} → {q_table.shape}")
 
     next_state, reward, done, _, _ = env.step(action)
 
@@ -411,7 +400,7 @@ for episode in range(episodes):
         print(f"Episódio {episode}: epsilon reiniciado para {epsilon:.2f}")
 
     if action >= len(env.actions):
-        print(f"⚠️ Ação {action} inválida, usando ação aleatória")
+        print(f"Ação {action} inválida, usando ação aleatória")
         action = random.randint(0, len(env.actions) - 1)
 
     print(f"[{episode}] Payload: {env.actions[action][:50]}... | Reward: {reward} | Testados: {len(env.payload_history)}")
@@ -419,15 +408,15 @@ for episode in range(episodes):
 # =============== RESULTADOS FINAIS ===============
 
 best_action = np.argmax(q_table[0])
-print("\n🏆 MELHOR PAYLOAD ENCONTRADO:")
+print("\nMELHOR PAYLOAD ENCONTRADO:")
 print(env.actions[best_action])
 
-print("\n📊 ESTATÍSTICAS FINAIS:")
+print("\nESTATÍSTICAS FINAIS:")
 stats = env.get_statistics()
 for key, value in stats.items():
     print(f"  {key}: {value}")
 
-print("\n🔍 TOP 5 PAYLOADS ÚNICOS:")
+print("\nTOP 5 PAYLOADS ÚNICOS:")
 best_payloads = {}
 for payload, reward in zip(env.payload_history, env.reward_history):
     if payload not in best_payloads:
@@ -461,7 +450,7 @@ plt.legend()
 plt.grid()
 plt.savefig("graficos/1_curva_aprendizado.png", dpi=150, bbox_inches="tight")
 plt.close()
-print("✅ Gráfico salvo: graficos/1_curva_aprendizado.png")
+print("Gráfico salvo: graficos/1_curva_aprendizado.png")
 
 # --- Gráfico 2: Pizza por nível de severidade ---
 criticos = sum(1 for r in rewards if r == 10)
@@ -482,7 +471,7 @@ plt.pie(values_filtrados, labels=labels_filtrados, autopct='%1.1f%%', colors=col
 plt.title("Distribuição de detecções por nível de severidade")
 plt.savefig("graficos/2_pizza_severidade.png", dpi=150, bbox_inches="tight")
 plt.close()
-print("✅ Gráfico salvo: graficos/2_pizza_severidade.png")
+print("Gráfico salvo: graficos/2_pizza_severidade.png")
 
 # --- Gráfico 3: Top payloads bem-sucedidos ---
 payload_counter = Counter()
@@ -505,7 +494,7 @@ if top_payloads:
     plt.tight_layout()
     plt.savefig("graficos/3_top_payloads.png", dpi=150, bbox_inches="tight")
     plt.close()
-    print("✅ Gráfico salvo: graficos/3_top_payloads.png")
+    print("Gráfico salvo: graficos/3_top_payloads.png")
 
 # --- Gráfico 4: Tipos de SQL Injection explorados ---
 categories = {
@@ -538,7 +527,7 @@ plt.xticks(rotation=10)
 plt.tight_layout()
 plt.savefig("graficos/4_tipos_sqli.png", dpi=150, bbox_inches="tight")
 plt.close()
-print("✅ Gráfico salvo: graficos/4_tipos_sqli.png")
+print("Gráfico salvo: graficos/4_tipos_sqli.png")
 
-print("\n📁 Todos os gráficos foram salvos na pasta 'graficos/'")
-print("   Abra a pasta no PyCharm para visualizá-los.")
+print("\nTodos os gráficos foram salvos na pasta 'graficos/'")
+print("   Abra a pasta para visualizá-los.")
