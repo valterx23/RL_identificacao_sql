@@ -75,9 +75,3 @@ python agente_sql_rl.py
 
 Este projeto foi desenvolvido como Trabalho de Graduação apresentado à FATEC Ourinhos,
 com defesa prevista para dezembro de 2026.
-
-
-## Licença
-Este código é disponibilizado publicamente apenas para fins de portfólio e avaliação
-técnica. Não é permitida a reprodução, redistribuição ou uso comercial sem autorização
-do autor. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
