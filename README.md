@@ -34,9 +34,9 @@ O agente foi treinado e avaliado contra o **DVWA (Damn Vulnerable Web Applicatio
 nos níveis de segurança LOW, MEDIUM e HIGH, hospedado em uma máquina virtual Metasploitable no Virtualbox.
 
 ## Resultados
-- Taxa de detecção em nível LOW: **74,67%**
-- Taxa de detecção em nível MEDIUM: **71,67%**
-- Taxa de detecção em nível HIGH: **0%** (impactada pela proteção de token CSRF)
+- Taxa de sucesso em nível LOW: **74,67%**
+- Taxa de sucesso em nível MEDIUM: **71,67%**
+- Taxa de sucesso em nível HIGH: **0%** (impactada pela proteção de token CSRF)
 - Treinamento realizado ao longo de 300 episódios
 
 ## Como executar
