@@ -31,7 +31,7 @@ própria interação com a aplicação.
 ## Alvo de testes
 
 O agente foi treinado e avaliado contra o **DVWA (Damn Vulnerable Web Application)**,
-nos níveis de segurança MEDIUM e HIGH, hospedado em uma máquina virtual Metasploitable no Virtualbox.
+nos níveis de segurança LOW, MEDIUM e HIGH, hospedado em uma máquina virtual Metasploitable no Virtualbox.
 
 ## Resultados
 - Taxa de detecção em nível LOW: **74,67%**
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 https://sourceforge.net/projects/metasploitable/
 
 4. Em seguida abra o .iso com virtualbox e na configuração de rede, adicione host-only com IP 192.168.56.1
-   Obs: Importante que a máquina esteja com o IP 192.1678.56.101 para o script funcionar via Host-only da máquina virtual metasploitable por virtualbox
+   Obs: Importante que a máquina esteja com o IP 192.168.56.101 para o script funcionar via Host-only da máquina virtual metasploitable por virtualbox
 
 5. Escolha da dificuldade: Por padrão a dificuldade do DVWA no script está em LOW, para alterar, abra o script e na linha 14 existe uma variável chamada "NIVEL" e essa variavel está recebendo uma string "low". Alterar o "low" para a dificuldade desejada. Exemplo de como deve ficar a variável:
 
