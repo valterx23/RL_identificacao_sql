@@ -6,8 +6,9 @@ Trabalho de Graduação (TCC) — Tecnólogo em Segurança da Informação, FATE
 
 Este projeto implementa um agente de Inteligência Artificial baseado em **Q-Learning**
 (Reinforcement Learning) capaz de identificar vulnerabilidades de SQL Injection em
-aplicações web de forma autônoma, através de interação direta com o alvo sem depender
-de assinaturas ou payloads pré-definidos como as ferramentas tradicionais.
+aplicações web de forma autônoma, através de interação direta com o alvo com 10 payloads iniciais e geração dinâmica dos payloads nas dificuldades LOW, MEDIUM e HIGH.
+
+
 
 O agente aprende, por tentativa e erro, quais estratégias de ataque geram respostas que
 indicam vulnerabilidade, recebendo recompensas conforme a eficácia de suas ações.
