@@ -61,7 +61,7 @@ class DVWAEnv(gym.Env):
 
         try:
             dropdown = Select(self.driver.find_element(By.NAME, "security"))
-            dropdown.select_by_value("high")
+            dropdown.select_by_value("low")
 
             apply_button = self.driver.find_element(By.NAME, "seclev_submit")
             apply_button.click()
