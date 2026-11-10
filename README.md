@@ -58,6 +58,14 @@ https://sourceforge.net/projects/metasploitable/
 4. Em seguida abra o .iso com virtualbox e na configuração de rede, adicione host-only com IP 192.168.56.1
    Obs: Importante que a máquina esteja com o IP 192.1678.56.101 para o script funcionar via Host-only da máquina virtual metasploitable por virtualbox
 
+5. Escolha da dificuldade: Por padrão a dificuldade do DVWA no script está em LOW, para alterar, abra o script e na linha 14 existe uma variável chamada "NIVEL" e essa variavel está recebendo uma string "low". alterar o "low" para a dificuldade desejada exemplo de como deve ficar a variável:
+
+```
+NIVEL = "low"
+NIVEL = "medium"
+NIVEL = "high"
+```
+
 6. Execute o script:
 ```bash
 python agente_sql_rl.py
